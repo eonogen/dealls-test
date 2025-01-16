@@ -1,0 +1,12 @@
+services:
+  redis:
+    image: redis:7.4.2
+    ports:
+      - "6379"
+  postgres:
+    image: postgres:17.2
+    environment:
+      POSTGRES_USER: sswiper
+      POSTGRES_PASSWORD: pas5w0rd
+    ports:
+      - "5432"

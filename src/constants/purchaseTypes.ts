@@ -1,0 +1,2 @@
+export const VERIFIED_BADGE = 'VERIFIED_BADGE';
+export const UNLIMITED_QUOTA = 'UNLIMITED_QUOTA';

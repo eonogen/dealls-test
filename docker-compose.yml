@@ -1,0 +1,51 @@
+services:
+  api:
+    build: .
+    ports:
+      - '21990:3000'
+    environment:
+      REDIS_URI: redis://redis:6379
+      POSTGRES_URI: postgresql://sswiper:pas5w0rd@postgres:5432/sswiper
+    volumes:
+      - .:/opt/app
+      - /opt/app/node_modules/
+  redis:
+    image: redis:7.4.2
+    ports:
+      - '21991:6379'
+  postgres:
+    image: postgres:17.2
+    environment:
+      POSTGRES_USER: sswiper
+      POSTGRES_PASSWORD: pas5w0rd
+    ports:
+      - '21992:5432'
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - '21993:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+    configs:
+      - source: servers.json
+        target: /pgadmin4/servers.json
+
+configs:
+  servers.json:
+    content: |
+      {
+        "Servers": {
+          "1": {
+            "Group": "Servers",
+            "Name": "Local DB",
+            "Host": "postgres",
+            "Port": 5432,
+            "MaintenanceDB": "sswiper",
+            "Username": "sswiper",
+            "SSLMode": "prefer"
+          }
+        }
+      }
